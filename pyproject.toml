@@ -1,0 +1,109 @@
+[project]
+name = "claude-export-db"
+version = "0.1.0"
+description = "Convert Anthropic Claude account data exports into queryable databases and structured formats"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "steer", email = "steer.xyz@gmail.com" }]
+requires-python = ">=3.12"
+keywords = ["claude", "anthropic", "sqlite", "cli", "data-export"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Database",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click>=8.3.2",
+    "rich>=14.3.3",
+    "typer>=0.24.1",
+]
+
+[project.scripts]
+claude-export-db = "claude_export_db.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/johnsteer1/claude-export-db"
+Repository = "https://github.com/johnsteer1/claude-export-db"
+Issues = "https://github.com/johnsteer1/claude-export-db/issues"
+
+[build-system]
+requires = ["uv_build>=0.11.3,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.13.9",
+    "pre-commit>=4.5.1",
+    "pyright>=1.1.408",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.9",
+]
+
+# ---------------------------------------------------------------------------
+# Ruff — linting + formatting (replaces black, flake8, isort)
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "RUF", # ruff-specific
+]
+ignore = ["E501"]  # line length handled by formatter
+
+[tool.ruff.lint.isort]
+known-first-party = ["claude_export_db"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ---------------------------------------------------------------------------
+# Pyright — type checking
+# ---------------------------------------------------------------------------
+[tool.pyright]
+include = ["src"]
+exclude = ["tests", ".venv"]
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=claude_export_db --cov-report=term-missing --cov-fail-under=0"
+
+[tool.coverage.run]
+source = ["src/claude_export_db"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+
+# ---------------------------------------------------------------------------
+# commitizen — conventional commits + auto versioning
+# ---------------------------------------------------------------------------
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = ["pyproject.toml:^version", "src/claude_export_db/__init__.py:__version__"]
+tag_format = "v$version"
+update_changelog_on_bump = true

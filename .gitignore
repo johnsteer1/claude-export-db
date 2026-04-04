@@ -1,0 +1,27 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Data exports (contain personal data)
+*.zip
+data/
+*.db
+*.sqlite
+
+# Coverage / test artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Type checking
+.pyright/
+
+# OS
+.DS_Store
