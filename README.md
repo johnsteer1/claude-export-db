@@ -15,20 +15,34 @@ uvx claude-export-db
 ## Usage
 
 ```bash
-claude-export-db convert export.zip --output sqlite --out brain.db
-claude-export-db convert export.zip --output json --out brain.json
-claude-export-db convert export.zip --output markdown --out ./docs
+# SQLite (default) — outputs brain.db
+claude-export-db convert export.zip
+
+# Other formats
+claude-export-db convert export.zip -o json
+claude-export-db convert export.zip -o jsonl
+claude-export-db convert export.zip -o markdown
+claude-export-db convert export.zip -o parquet
+
+# Custom output path, exclude thinking blocks
+claude-export-db convert export.zip --out ~/brain.db --no-thinking
+
+# Stats without converting
+claude-export-db inspect export.zip
+
+# Print SQLite DDL
+claude-export-db schema
 ```
 
 ## Schema
 
-The SQLite output uses a normalized schema:
+Normalized SQLite with full content block support:
 
 ```
-users · projects · conversations · messages · content_blocks · attachments
+users · projects · conversations · messages · content_blocks · attachments · files
 ```
 
-`content_blocks` captures all message content types: `text`, `thinking`, `tool_use`, `tool_result`.
+`content_blocks` captures `text`, `thinking`, `tool_use`, and `tool_result` — nothing is dropped.
 
 ## Development
 
